@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dto.FileUpload;
 import dto.QnA;
 import service.mypage.myQnA.myQnAService;
 import service.mypage.myQnA.myQnAServiceImpl;
-import utill.Paging;
+import util.Paging;
 
 
 @WebServlet("/mypage/myqna")
@@ -26,22 +27,21 @@ public class MyQnAController extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		int u_no = (int) session.getAttribute("u_no");
 		
-		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¾ò±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½
 		int curPage = qnaServ.getCurPage(request);
 								
-		// ÃÑ º¸³½ ÂÊÁö ¼ö ¾ò±â
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 		int totalCount = qnaServ.getTotalMyQnACount(u_no);
 								
-		// ÆäÀÌÁö °´Ã¼ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 		Paging paging = new Paging(totalCount, curPage);
-
-								
-		// °Ô½Ã±Û ¸ñ·Ï MODEL·Î Ãß°¡
+						
+		// ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ MODELï¿½ï¿½ ï¿½ß°ï¿½
 		List<QnA> qnaList = qnaServ.getMyQnAPagingList(u_no, paging);
 				
 		request.setAttribute("qnaList", qnaList);
 								
-		// ÆäÀÌÂ¡ °´Ã¼ MODEL·Î Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½Ã¼ MODELï¿½ï¿½ ï¿½ß°ï¿½
 		request.setAttribute("paging", paging);
 
 		request.getRequestDispatcher("/view/mypage/myQnA/myQnAList.jsp").forward(request, response);

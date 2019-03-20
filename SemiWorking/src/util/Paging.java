@@ -1,28 +1,28 @@
-package utill;
+package util;
 
 public class Paging {
 
-	private int curPage; // 현재 페이지 번호 (선택한 페이지)
+	private int curPage; // ?쁽?옱 ?럹?씠吏? 踰덊샇 (?꽑?깮?븳 ?럹?씠吏?)
 	
-	private int totalCount; // 총 게시글 수 (DB 조회 결과로 얻어옴)
-	private int listCount; // 한 페이지당 출력될 게시글 수 (직접 설정함)
-	private int totalPage; // 총 페이지 수 (계산으로 알아냄)
+	private int totalCount; // 珥? 寃뚯떆湲? ?닔 (DB 議고쉶 寃곌낵濡? ?뼸?뼱?샂)
+	private int listCount; // ?븳 ?럹?씠吏??떦 異쒕젰?맆 寃뚯떆湲? ?닔 (吏곸젒 ?꽕?젙?븿)
+	private int totalPage; // 珥? ?럹?씠吏? ?닔 (怨꾩궛?쑝濡? ?븣?븘?깂)
 	
-	private int pageCount; // 한 화면에 출력될 페이지 수 (직접 설정함)
-	private int startPage; // 화면에 보이는 시작 페이지 (계산으로 알아냄)
-	private int endPage; // 화면에 보이는 끝 페이지 (계산으로 알아냄)
+	private int pageCount; // ?븳 ?솕硫댁뿉 異쒕젰?맆 ?럹?씠吏? ?닔 (吏곸젒 ?꽕?젙?븿)
+	private int startPage; // ?솕硫댁뿉 蹂댁씠?뒗 ?떆?옉 ?럹?씠吏? (怨꾩궛?쑝濡? ?븣?븘?깂)
+	private int endPage; // ?솕硫댁뿉 蹂댁씠?뒗 ?걹 ?럹?씠吏? (怨꾩궛?쑝濡? ?븣?븘?깂)
 	
-	private int startNo; // 게시글 시작번호 (계산으로 알아냄)
-	private int endNo; // 게시글 끝 번호 (계산으로 알아냄)
+	private int startNo; // 寃뚯떆湲? ?떆?옉踰덊샇 (怨꾩궛?쑝濡? ?븣?븘?깂)
+	private int endNo; // 寃뚯떆湲? ?걹 踰덊샇 (怨꾩궛?쑝濡? ?븣?븘?깂)
 	
-	// 총 게시글 수만 입력하는 생성자
+	// 珥? 寃뚯떆湲? ?닔留? ?엯?젰?븯?뒗 ?깮?꽦?옄
 	public Paging(int totalCount) {
 		this.setTotalCount(totalCount);
 		
 		makePaging();
 	}
 	
-	// 총 게시글 수, 현재 페이지 입력하는 생성자
+	// 珥? 寃뚯떆湲? ?닔, ?쁽?옱 ?럹?씠吏? ?엯?젰?븯?뒗 ?깮?꽦?옄
 	public Paging(int totalCount, int curPage) {
 		this.setTotalCount(totalCount);
 		this.setCurPage(curPage);
@@ -30,7 +30,7 @@ public class Paging {
 		makePaging();
 	}
 	
-	// 총 게시글 수, 현재 페이지, 페이지 당 게시글 수 입력하는 생성자
+	// 珥? 寃뚯떆湲? ?닔, ?쁽?옱 ?럹?씠吏?, ?럹?씠吏? ?떦 寃뚯떆湲? ?닔 ?엯?젰?븯?뒗 ?깮?꽦?옄
 	public Paging(int totalCount, int curPage, int listCount) {
 		this.setTotalCount(totalCount);
 		this.setCurPage(curPage);
@@ -39,7 +39,7 @@ public class Paging {
 		makePaging();
 	}
 	
-	// 총 게시글 수, 현재 페이지, 페이지 당 게시글 수, 페이지 카운트 입력하는 생성자
+	// 珥? 寃뚯떆湲? ?닔, ?쁽?옱 ?럹?씠吏?, ?럹?씠吏? ?떦 寃뚯떆湲? ?닔, ?럹?씠吏? 移댁슫?듃 ?엯?젰?븯?뒗 ?깮?꽦?옄
 	public Paging(int totalCount, int curPage, int listCount, int pageCount) {
 		this.setTotalCount(totalCount);
 		this.setCurPage(curPage);
@@ -51,29 +51,29 @@ public class Paging {
 	
 	
 	private void makePaging() {
-		if(totalCount == 0) return; // 게시글이 없는 경우 중단
+		if(totalCount == 0) return; // 寃뚯떆湲??씠 ?뾾?뒗 寃쎌슦 以묐떒
 		
-		// 기본값 설정
-		if(curPage == 0) setCurPage(1); // 첫페이지로 설정
-		if(listCount == 0) setListCount(10); // 게시글 10개로 설정
-		if(pageCount == 0) setPageCount(10); // 페이징 10개로 설정
+		// 湲곕낯媛? ?꽕?젙
+		if(curPage == 0) setCurPage(1); // 泥ロ럹?씠吏?濡? ?꽕?젙
+		if(listCount == 0) setListCount(10); // 寃뚯떆湲? 10媛쒕줈 ?꽕?젙
+		if(pageCount == 0) setPageCount(10); // ?럹?씠吏? 10媛쒕줈 ?꽕?젙
 		
 		
-		// 총 페이징 수 계산
+		// 珥? ?럹?씠吏? ?닔 怨꾩궛
 		totalPage = totalCount / listCount;
 		if( totalCount % listCount >0) totalPage++;
 		
-		// 현재 페이지가 총 페이지보다 크게 입력되면 강제로 마지막 페이지로 고정
+		// ?쁽?옱 ?럹?씠吏?媛? 珥? ?럹?씠吏?蹂대떎 ?겕寃? ?엯?젰?릺硫? 媛뺤젣濡? 留덉?留? ?럹?씠吏?濡? 怨좎젙
 		if(totalPage < curPage) curPage = totalPage;
 		
-		// 화면에 보이는 시작페이지 & 끝 페이지 번호 계산
+		// ?솕硫댁뿉 蹂댁씠?뒗 ?떆?옉?럹?씠吏? & ?걹 ?럹?씠吏? 踰덊샇 怨꾩궛
 		startPage = ((curPage-1)/pageCount)*pageCount+1;
 		endPage = startPage+pageCount-1;
 
-		// 마지막으로 계산된 페이지가 totalPage보다 커질경우 강제로 최종페이지까지만 보이도록 설정
+		// 留덉?留됱쑝濡? 怨꾩궛?맂 ?럹?씠吏?媛? totalPage蹂대떎 而ㅼ쭏寃쎌슦 媛뺤젣濡? 理쒖쥌?럹?씠吏?源뚯?留? 蹂댁씠?룄濡? ?꽕?젙
 		if(endPage>totalPage) endPage = totalPage;
 
-		// 화면에 보이는 시작 게시글 & 끝 게시글 번호 계산
+		// ?솕硫댁뿉 蹂댁씠?뒗 ?떆?옉 寃뚯떆湲? & ?걹 寃뚯떆湲? 踰덊샇 怨꾩궛
 		startNo = (curPage-1)*listCount+1;
 		endNo = curPage*listCount;
 

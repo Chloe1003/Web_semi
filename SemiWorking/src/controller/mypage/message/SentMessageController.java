@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import dto.Message;
 import service.mypage.message.MessageService;
 import service.mypage.message.MessageServiceImpl;
-import utill.Paging;
+import util.Paging;
 
 
 @WebServlet("/mypage/message/sent")
@@ -26,26 +26,17 @@ public class SentMessageController extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		int u_no = (int)session.getAttribute("u_no"); 
 		
+		int side = 2;
 		
-		// 현재 페이지 번호 얻기
 		int curPage = mServ.getCurPage(request);
-				
-		// 총 보낸 쪽지 수 얻기
-		int totalCount = mServ.getTotalSentMsgCount(u_no);
-				
-		// 페이지 객체 생성
-		Paging paging = new Paging(totalCount, curPage);
-
-				
-		// 게시글 목록 MODEL로 추가
+		int totalCount = mServ.getTotalMsgCount(side, u_no);
 		
-		List<Message> rList = mServ.getSentMsgPagingList(u_no, paging);
-		request.setAttribute("rList", rList);
-				
-				
-		// 페이징 객체 MODEL로 추가
+		Paging paging = new Paging(totalCount, curPage);
+		
+
+		List<Message> msgList = mServ.getMsgPagingList(side, u_no, paging);
+		request.setAttribute("msgList", msgList);	
 		request.setAttribute("paging", paging);
-				
 		
 		request.getRequestDispatcher("/view/mypage/message/sentMsgList.jsp").forward(request, response);	
 	}

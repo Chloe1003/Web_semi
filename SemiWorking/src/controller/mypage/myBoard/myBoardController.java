@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import dto.MyBoard;
 import service.mypage.myBoard.myBoardService;
 import service.mypage.myBoard.myBoardServiceImpl;
-import utill.Paging;
+import util.Paging;
 
 
 @WebServlet("/mypage/myboard")
@@ -26,21 +26,16 @@ public class myBoardController extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		int u_no = (int) session.getAttribute("u_no");
 		
-		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¾ò±â
 		int curPage = mbServ.getCurPage(request);
-						
-		// ÃÑ º¸³½ ÂÊÁö ¼ö ¾ò±â
 		int totalCount = mbServ.getTotalMyBoardCount(u_no);
 						
-		// ÆäÀÌÁö °´Ã¼ »ı¼º
 		Paging paging = new Paging(totalCount, curPage);
 
-						
-		// °Ô½Ã±Û ¸ñ·Ï MODEL·Î Ãß°¡
+
 		List<MyBoard> mbList = mbServ.getMyBoardPagingList(u_no, paging);
 		request.setAttribute("mbList", mbList);					
 						
-		// ÆäÀÌÂ¡ °´Ã¼ MODEL·Î Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½Ã¼ MODELï¿½ï¿½ ï¿½ß°ï¿½
 		request.setAttribute("paging", paging);
 
 		request.getRequestDispatcher("/view/mypage/myBoard/myBoardList.jsp").forward(request, response);

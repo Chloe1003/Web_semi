@@ -1,4 +1,4 @@
-package utill;
+package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,16 +6,16 @@ import java.sql.SQLException;
 
 public class DBConn {
 
-	// DB ì—°ê²° ì •ë³´
+	// DB ?—°ê²? ? •ë³?
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL =  "jdbc:oracle:thin:@localhost:1521:xe";
 	private static final String USERNAME = "momo";
 	private static final String PASSWORD = "admin2019";
 	
-	// DB ì—°ê²° ê°ì²´
+	// DB ?—°ê²? ê°ì²´
 	private static Connection conn = null;
 	
-	// private ìƒì„±ì
+	// private ?ƒ?„±?
 	private DBConn() { }
 	
 	// Connection ê°ì²´ ë°˜í™˜ - Singleton Pattern
