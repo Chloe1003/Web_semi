@@ -17,6 +17,11 @@ public interface UsersDao {
 	public List selectFavoritCateByUno(int u_no);
 			
 	public void updatePw(int u_no, String nu_pw);
-
+	
+	public List selectCateList();
+	
+	public void updateUsers(int u_no, Users u);
+	
+	public void updateFavoriteCate(int u_no, String favorite);
 	
 }

@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import dto.Bookmark;
+import dto.StudyCategory;
 import dto.UserFavoritCate;
 import dto.Users;
 import util.DBConn;
@@ -137,16 +140,17 @@ private Connection conn = DBConn.getConnection();
 			ps.setInt(1, u_no);
 			
 			rs = ps.executeQuery();
-
+			
 			while(rs.next()) {
 				user.setU_no(rs.getInt("u_no"));
 				user.setU_id(rs.getString("u_id"));
 				user.setU_name(rs.getString("u_name"));
 				user.setU_pw(rs.getString("u_pw"));
 				user.setU_email(rs.getString("u_email"));
-				user.setU_birth(rs.getString("u_birth"));
+				user.setU_birth(rs.getString("u_birth").substring(0, 10));
 				user.setU_phone(rs.getString("u_phone"));
 				user.setU_regdate(rs.getDate("u_regdate"));
+				
 			} 
 			
 			
@@ -171,10 +175,10 @@ private Connection conn = DBConn.getConnection();
 
 		String sql = "";
 		
-		sql += "SELECT U.u_no, F.st_code, C.st_cate, C.st_subcate, C.st_category_code ";
+		sql += "SELECT U.u_no, F.st_code, C.st_catename ";
 		sql += "	FROM userfavoritcate F";
-		sql += " 	JOIN studycate C";
-		sql += " 	ON F.st_code = C.st_code";
+		sql += " 	JOIN studycategory C";
+		sql += " 	ON F.st_code = C.st_catecode";
 		sql += " 	JOIN users U";
 		sql += " 	ON F.u_no = U.u_no";
 		sql += " 	WHERE U.u_no=?";
@@ -193,9 +197,7 @@ private Connection conn = DBConn.getConnection();
 
 				uc.setU_no(rs.getInt("u_no"));
 				uc.setSt_code(rs.getInt("st_code"));
-				uc.setSt_cate(rs.getString("st_cate"));
-				uc.setSt_subcate(rs.getString("st_subcate"));
-//				uc.setSt_category_code(rs.getString("st_category_code"));
+				uc.setSt_catename(rs.getString("st_catename"));
 				
 				ucList.add(uc);
 			}
@@ -240,6 +242,102 @@ private Connection conn = DBConn.getConnection();
 				e.printStackTrace();
 			}
 		}		
+		
+	}
+
+	@Override
+	public List selectCateList() {
+		String sql = "";
+		sql += "SELECT * FROM studycategory";
+		
+		List<StudyCategory> cateList = new ArrayList<>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				StudyCategory cate = new StudyCategory();
+				
+				cate.setSt_catecode(rs.getInt("st_catecode"));
+				cate.setSt_catename(rs.getString("st_catename"));
+				
+				cateList.add(cate);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return cateList;
+	}
+
+	@Override
+	public void updateUsers(int u_no, Users u) {
+		String sql = "";
+		sql +="UPDATE users";
+		sql +=" SET u_email=?, u_phone=?, u_birth=?";
+		sql +=" WHERE u_no=?";
+				
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setString(1,u.getU_email());
+			ps.setString(2, u.getU_phone());
+			Date u_birth = null;
+			try {
+				u_birth = new SimpleDateFormat("yyyyMMdd").parse(u.getU_birth());
+			} catch (ParseException e) {
+				
+				e.printStackTrace();
+			} 
+			ps.setDate(3, (java.sql.Date) u_birth);
+			ps.setInt(4, u_no);
+				
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+
+	@Override
+	public void updateFavoriteCate(int u_no, String favorite) {
+		String sql = "";
+		sql += "UPDATE userfavoritcate (u_no, st_code)";
+		sql +=" SET st_code=?";
+		sql +=" WHERE u_no=?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.setString(1, favorite);
+			ps.setInt(2, u_no);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

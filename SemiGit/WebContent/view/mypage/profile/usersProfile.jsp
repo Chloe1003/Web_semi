@@ -51,10 +51,9 @@ text-align:center;
 			    <div class="panel panel-default col-sm-10 panel-body">
 			    <c:if test="${ucList.size()>0 }">
 				    <c:forEach var="i" begin="0" end="${ucList.size()-1 }">
-					    <ol class="breadcrumb">
-						  <li><a href="#">${ucList.get(i).st_cate }</a></li>
-						  <li class="active">${ucList.get(i).st_subcate } </li>
-						</ol>
+						  <a href="#">${ucList.get(i).st_catename }</a>
+						  /
+<%-- 						  <li class="active">${ucList.get(i).st_subcate } </li> --%>
 				    </c:forEach>
 			    </c:if>
 			    <c:if test="${ucList.size()==0 }">관심 카테고리를 설정하지 않으셨습니다</c:if>
