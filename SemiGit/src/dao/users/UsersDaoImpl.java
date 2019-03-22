@@ -282,7 +282,7 @@ private Connection conn = DBConn.getConnection();
 	public void updateUsers(int u_no, Users u) {
 		String sql = "";
 		sql +="UPDATE users";
-		sql +=" SET u_email=?, u_phone=?, u_birth=?";
+		sql +=" SET u_email=?, u_phone=?, u_birth=TO_DATE(?, 'yyyy/MM/dd')";
 		sql +=" WHERE u_no=?";
 				
 		try {
@@ -290,14 +290,7 @@ private Connection conn = DBConn.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1,u.getU_email());
 			ps.setString(2, u.getU_phone());
-			Date u_birth = null;
-			try {
-				u_birth = new SimpleDateFormat("yyyyMMdd").parse(u.getU_birth());
-			} catch (ParseException e) {
-				
-				e.printStackTrace();
-			} 
-			ps.setDate(3, (java.sql.Date) u_birth);
+			ps.setString(3, u.getU_birth());
 			ps.setInt(4, u_no);
 				
 			ps.executeUpdate();
@@ -315,17 +308,42 @@ private Connection conn = DBConn.getConnection();
 	}
 
 	@Override
-	public void updateFavoriteCate(int u_no, String favorite) {
+	public void addFavoriteCate(int u_no, String favorite) {
+			
 		String sql = "";
-		sql += "UPDATE userfavoritcate (u_no, st_code)";
-		sql +=" SET st_code=?";
+		sql +="INSERT INTO userfavoritcate(u_no, st_code)";
+		sql +=" VALUES (?, ?)";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, u_no);
+			ps.setString(2, favorite);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	@Override
+	public void deleteFavoriteCate(int u_no) {
+		String sql = "";
+		sql += "DELETE FROM userfavoritcate";
 		sql +=" WHERE u_no=?";
 		
 		try {
 			ps = conn.prepareStatement(sql);
 
-			ps.setString(1, favorite);
-			ps.setInt(2, u_no);
+			ps.setInt(1, u_no);
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {

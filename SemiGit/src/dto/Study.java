@@ -19,7 +19,14 @@ public class Study {
 	private String study_period;
 	private String study_addrecruit;
 	private int u_no;
+	private String u_name;
 	
+	public String getU_name() {
+		return u_name;
+	}
+	public void setU_name(String u_name) {
+		this.u_name = u_name;
+	}
 	public int getStudy_no() {
 		return study_no;
 	}

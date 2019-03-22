@@ -321,11 +321,11 @@ public class TeamDaoImpl implements TeamDao{
 	}
 
 	@Override
-	public List userStudySelectAll(UserStudy userStudy) {
+	public List userStudySelectAll(int study_no) {
 		//sql 작성
 		String sql ="";
 		sql +="select * from userstudy";
-		sql +=" where study_no = 1 "; //아직 연결안되서 임의로 값 집어넣음
+		sql +=" where study_no = ? "; 
 		
 		List<UserStudy> userStudyList = new ArrayList<>();
 		
@@ -333,7 +333,7 @@ public class TeamDaoImpl implements TeamDao{
 			//sql 수행
 			ps = conn.prepareStatement(sql);
 			//ps.setInt(1, userStudy.getStudy_no());
-			
+			ps.setInt(1, study_no);
 			rs = ps.executeQuery();
 			
 			//결과처리
@@ -363,6 +363,47 @@ public class TeamDaoImpl implements TeamDao{
 		return userStudyList;
 	}
 	
-	
+	@Override
+	public Study selectStudy(int study_no) {
+		
+		String sql = "";
+		sql += "select std.*,us.u_name from study std";
+		sql += " inner join users us";
+		sql += " on std.u_no = us.u_no";
+		sql += " where study_no=?";
+
+		// study객체
+		Study study = new Study();
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, study_no);
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				study.setStudy_no(rs.getInt("study_no"));
+				study.setSt_code(rs.getInt("st_code"));
+				study.setStudy_name(rs.getString("study_name"));
+				study.setU_name(rs.getString("u_name"));
+				study.setStudy_region(rs.getString("study_region"));
+				study.setStudy_time(rs.getString("study_time"));
+				study.setStudy_freq(rs.getString("study_freq"));
+				study.setStudy_details(rs.getString("study_details"));
+				study.setStudy_period(rs.getString("study_period"));
+
+			}
+		} catch (SQLException e) {
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+			}
+		}
+		return study;
+	}
 
 }

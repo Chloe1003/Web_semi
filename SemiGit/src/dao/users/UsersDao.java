@@ -22,6 +22,8 @@ public interface UsersDao {
 	
 	public void updateUsers(int u_no, Users u);
 	
-	public void updateFavoriteCate(int u_no, String favorite);
+	public void addFavoriteCate(int u_no, String favorite);
+	
+	public void deleteFavoriteCate(int u_no);
 	
 }

@@ -54,8 +54,9 @@ public class ProfileChangeController extends HttpServlet {
 		int u_no = (int) session.getAttribute("u_no");
 		
 		Users u = uServ.updateGetParam(req, resp);
+	
+		List<UserFavoritCate> ucList = uServ.getFavoritCateByUno(u_no);
 		String[] favoritCate = req.getParameterValues("cate");
-		
 		
 		uServ.updateUsers(u_no, u, favoritCate);
 		

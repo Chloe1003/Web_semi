@@ -19,11 +19,11 @@ $(document).ready(function() {
 	      $("#birth-year").append("<option value='" + i + "'>" + i + "년</option>");
 	    }
 	  }
-	  for (var i = 01; i <= 12; i++) {
+	  for (var i = 1; i <= 12; i++) {
 	    $("#birth-month").append("<option value='" + i + "'>" + i + "월</option>");
 	  }
 	  var lastDay = (new Date($("#birth-year").val(), $("#birth-month").val(), 0)).getDate();
-	  for (var i = 01; i <= lastDay; i++) {
+	  for (var i = 1; i <= lastDay; i++) {
 	    $("#birth-day").append("<option value='" + i + "'>" + i + "일</option>");
 	  }
 	  $("#birth-month, #birth-year").change(function () {
@@ -36,9 +36,25 @@ $(document).ready(function() {
 	  
 	  // db에서 생일 값 가져오기
 	  var u_byear = "${fn:split(users.u_birth, '-')[0]}";
-	  var u_bmonth = "${fn:split(users.u_birth, '-')[1]}";
-	  var u_bday = "${fn:split(users.u_birth, '-')[2]}";
-// 	  console.log(u_bday);
+	  
+	  var us_bmonth = "${fn:split(users.u_birth, '-')[1]}";
+	  	  
+	  var u_bmonth;
+	  if(us_bmonth<10){ // 10보다 작을 때 앞에 0 떼어주기
+			u_bmonth = us_bmonth.substring(1);	  
+	 } else {
+			u_bmonth = us_bmonth;
+	  }
+// 	  console.log(u_bmonth);
+	  
+	  var us_bday = "${fn:split(users.u_birth, '-')[2]}";
+	  var u_bday;
+	  if(us_bday<10){ // 10보다 작을 때 앞에 0 떼어주기
+		  u_bday = us_bday.substring(1);	  
+	 } else {
+		 u_bday = us_bday;
+	  }
+	  
 	
 	  $("#birth-year").attr(u_byear);
 	  $('#birth-year option[value='+ u_byear + ']').prop('selected', 'selected');
@@ -84,8 +100,7 @@ $(document).ready(function() {
 	  });
 	
 	  $("#changeProfile").click(function(){
-		  console.log($("#eId").val());
-		  		  
+		  
 		  if ( ( $("#eId").val() == "" ) || ( $("#eAddress").val() == "" ) ){
 		    	// 이메일 입력여부 확인
 		    	alert("이메일주소를 입력해주세요");
@@ -120,7 +135,7 @@ $(document).ready(function() {
 				$("#eAddress").attr("disabled",false);
 			} else {
 				$("#eAddress").val($(this).text());
-				$("#eAddress").attr("disabled",true);
+// 				$("#eAddress").attr("disabled",true);
 			}	  
 		});	  
 	});
@@ -154,10 +169,10 @@ text-align:center;
     		
     		<form class="form-horizontal" id="profileform" action="/mypage/profile/updateProfile" method="post">
    				<div class="form-group">
-			    <label for="id" class="col-sm-2 control-label">아이디</label>
-			    <div class="col-sm-6">
+			   	 <label for="id" class="col-sm-2 control-label">아이디</label>
+			    	<div class="col-sm-6">
 			    	<input type="text" class="form-control" id="id" name="id" placeholder="${users.u_id }" readOnly>
-			    </div>
+			   		</div>
 			  </div>
 			  <div class="form-group">
 			    <label for="name" class="col-sm-2 control-label">이름</label>

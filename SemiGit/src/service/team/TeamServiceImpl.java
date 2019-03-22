@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.team.TeamDao;
 import dao.team.TeamDaoImpl;
 import dto.Achive;
+import dto.Study;
 import dto.UserStudy;
 import util.Paging;
 
@@ -68,9 +69,14 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List getUserStudyList(UserStudy userStudy) {
+	public List getUserStudyList(int study_no) {
 		//userStudy 조회 결과 반환
-		return teamDao.userStudySelectAll(userStudy);
+		return teamDao.userStudySelectAll(study_no);
+	}
+
+	@Override
+	public Study getStudy(int study_no) {
+		return teamDao.selectStudy(study_no);
 	}
 	
 	
