@@ -30,7 +30,7 @@ public class UsersLoginController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-		Users user = uServ.getParam(request, response);
+		Users user = uServ.loginGetParam(request, response);
 		boolean login = uServ.login(user);
 		
 		if(login==true) {

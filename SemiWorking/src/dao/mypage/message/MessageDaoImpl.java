@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.Bookmark;
 import dto.Message;
+import dto.Users;
 import util.DBConn;
 import util.Paging;
 
@@ -268,6 +268,43 @@ public class MessageDaoImpl implements MessageDao {
 			}
 		}		
 		
+	}
+
+
+	@Override
+	public Users selectUserName(int u_no) {
+		
+		String sql = "";
+		sql += "SELECT u_name";
+		sql += " 	FROM users";
+		sql += " 	WHERE u_no=?";
+		
+		Users u = new Users();
+
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, u_no);
+			
+			rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {				
+				u.setU_name(rs.getString("u_name"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} 
+		return u;
 	}
 
 }

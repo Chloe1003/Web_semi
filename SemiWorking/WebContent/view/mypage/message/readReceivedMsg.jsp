@@ -43,7 +43,7 @@
 
 <script>
 function popup(m_no){
-	window.open("/mypage/message/send?m_no="+m_no, "window팝업", "width=400, height=350, menubar=no, status=no, toolbar=no");
+	window.open("/mypage/message/send?m_no="+m_no+"&type=reply", "window팝업", "width=400, height=350, menubar=no, status=no, toolbar=no");
 };
 </script>
 

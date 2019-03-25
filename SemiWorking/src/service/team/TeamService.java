@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.Achive;
+import dto.AchivePeople;
+import dto.Study;
 import dto.UserStudy;
 import util.Paging;
 
@@ -21,18 +23,47 @@ public interface TeamService {
 	public List getPagingList(Paging paging);
 
 	
-	//요청 파라미터 처리
+	//Achive에대한 요청 파라미터 처리
 	public Achive getParam(HttpServletRequest req, HttpServletResponse resp);
 
 	//목표 등록
-	public Achive InsertAchive(Achive achive);
+	public void InsertAchive(Achive achive);
 
 	
 	//스터디 참여중인 회원 리스트 가져오기
 	public List getUserStudyList(UserStudy userStudy);
+
 	
-	//목표 번호 가져오기 
+	//목표 리스트 가져오기
+	public List getAchiveList(Achive achive);
+
+	//성취달성 인원에 대한 요청파라미터 처리
+	public AchivePeople getAchivePeopleParam(HttpServletRequest req, HttpServletResponse resp);
+
+	//성취 체크
+	public AchivePeople checkSubAchive(AchivePeople achivePeople);
+
+	//성취 체크 - jio
+	public void checkSubAchive2(AchivePeople achivePeople);
+
+	//대목표-세부목표개수 카운트
+	public int getSubAchiveCnt();
+
+	//각 유저가 달성한 세부목표개수
+	public int getUserSubAchiveCnt(Achive achive);
+
 	
+	//성취맨들 리스트 가져오기 
+	public List<AchivePeople> getAchivePeopleList(int u_no);
+
 	
+	//스터디원 삭제
+	public boolean delete(UserStudy userDel);
+	
+	// 팀원정보 가져오기
+	public List getTeammate(int study_no);
+	
+	// 스터디 정보 가져오기
+	public Study getStudy(int study_no);
 	
 }

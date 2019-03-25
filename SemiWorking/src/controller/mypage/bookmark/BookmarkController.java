@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.mypage.bookmark.BookmarkDao;
+import dao.mypage.bookmark.BookmarkDaoImpl;
 import dto.MyBoard;
 import service.mypage.bookmark.BookmarkService;
 import service.mypage.bookmark.BookmarkServiceImpl;
@@ -25,7 +27,7 @@ public class BookmarkController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-		int u_no = (int)session.getAttribute("u_no"); // u_no 諛쏆븘�삤湲�
+		int u_no = (int)session.getAttribute("u_no"); // u_no 받아오기
 
 		int curPage = bServ.getCurPage(request);
 		int totalCount = bServ.getTotalBookmarkCount(u_no);

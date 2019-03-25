@@ -1,2 +1,7 @@
 eclipse.preferences.version=1
-encoding//src/controller/mypage/bookmark/BookmarkController.java=UTF-8
+encoding//src/dao/mypage/message/MessageDao.java=UTF-8
+encoding//src/dao/team/TeamDao.java=UTF-8
+encoding//src/dao/team/TeamDaoImpl.java=UTF-8
+encoding//src/service/mypage/message/MessageService.java=UTF-8
+encoding//src/service/team/TeamService.java=UTF-8
+encoding//src/service/team/TeamServiceImpl.java=UTF-8
